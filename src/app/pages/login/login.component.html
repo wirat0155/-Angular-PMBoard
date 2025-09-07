@@ -1,11 +1,46 @@
 <div class="login-container">
   <h1>Login</h1>
-  <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
-    <input type="email" placeholder="Email" name="email" required [(ngModel)]="email">
-    <input type="password" placeholder="Password" name="password" required [(ngModel)]="password">
-    <button type="submit" [disabled]="!loginForm.valid">Login</button>
+  
+  <form (ngSubmit)="onSubmit()" #loginForm="ngForm" class="login-form">
+    
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input 
+        id="email" 
+        type="email" 
+        placeholder="Enter your email" 
+        name="email" 
+        required 
+        [(ngModel)]="email"
+        [disabled]="loading"
+      >
+      <p class="field-error" *ngIf="fieldErrors['email']">{{ fieldErrors['email'] }}</p>
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input 
+        id="password" 
+        type="password" 
+        placeholder="Enter your password" 
+        name="password" 
+        required 
+        [(ngModel)]="password"
+        [disabled]="loading"
+      >
+      <p class="field-error" *ngIf="fieldErrors['password']">{{ fieldErrors['password'] }}</p>
+    </div>
+
+    <button type="submit" [disabled]="!loginForm.valid || loading">
+      <span *ngIf="loading" class="spinner"></span>
+      <span *ngIf="!loading">Login</span>
+    </button>
+
   </form>
 
-  <p class="error" *ngIf="errorMessage">{{errorMessage }}</p>
-  <p>Don't have an account? <a routerLink="/register">Register</a></p>
+  <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+  <p class="register-link">
+    Don't have an account? <a routerLink="/register">Register</a>
+  </p>
 </div>

@@ -1,11 +1,19 @@
 import { Component } from '@angular/core'
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { AuthService, RegisterRequest } from '../../services/auth.serivce';
+import { z, ZodError } from "zod";
+
+const registerSchema = z.object({
+    fullName: z.string().min(1, "Full name is required"),
+    email: z.string().email("Invalid email"),
+    password: z.string().min(8, "Password must be at lease 8 characters"),
+});
 
 @Component({
     selector: 'app-register',
     standalone: true,
-    imports: [FormsModule],
+    imports: [FormsModule, CommonModule],
     templateUrl: './register.component.html',
     styleUrls: ['./register.component.scss']
 })
@@ -16,12 +24,18 @@ export class RegisterComponent {
     password = '';
     confirmPassword = '';
     loading = false;
+    errorMessage = "";
+    fieldErrors: Record<string, string> = {};
 
     constructor(private authService: AuthService) {}
 
     onSubmit() {
+        // Reset previous errors
+        this.errorMessage = "";
+        this.fieldErrors = {};
+
         if (this.password !== this.confirmPassword) {
-            alert('Password do not match!');
+            this.fieldErrors['confirmPassword'] = "Password do not match!";
             return;
         }
 
@@ -31,7 +45,23 @@ export class RegisterComponent {
             password: this.password
         };
 
+        // Validate using Zod
+        try {
+            registerSchema.parse(payload);
+        } catch (err) {
+            if (err instanceof ZodError) {
+                // Map field errors
+                err.errors.forEach(e => {
+                    if (e.path && e.path.length > 0) {
+                        const key = e.path[0] as string;
+                        this.fieldErrors[key] = e.message;
+                    }
+                });
+            }
+        }
+
         this.loading = true;
+
         this.authService.register(payload)
             .subscribe({
                 next: (res) => {
@@ -39,7 +69,7 @@ export class RegisterComponent {
                     this.loading = false;
                 },
                 error: (err) => {
-                    alert(err.message);
+                    this.errorMessage = err.message || "Registration failed";
                     this.loading = false;
                 }
             });

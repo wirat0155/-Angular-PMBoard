@@ -20,16 +20,40 @@ export interface RegisterResponse {
     requestId?: string;
 }
 
+export interface LoginRequest {
+    email: string;
+    password: string;
+}
+
+export interface LoginResponse {
+    message: string;
+    token: string;
+    user?: {
+        id: string;
+        fullName: string;
+        email: string;
+        role: string;
+    };
+    requestId?: string;
+}
+
 @Injectable({
     providedIn: 'root'
 })
 export class AuthService {
-    private apiUrl = "http://localhost:3000/api/auth/register";
+    private apiUrl = "http://localhost:3000/api/auth";
     
     constructor(private http: HttpClient) {}
 
     register(data: RegisterRequest): Observable<RegisterResponse>{
-        return this.http.post<RegisterResponse>(this.apiUrl, data)
+        return this.http.post<RegisterResponse>(`${this.apiUrl}/register`, data, { withCredentials: true })
+                .pipe(
+                    catchError(this.handleError)
+                );
+    }
+
+    login(data: LoginRequest): Observable<LoginResponse>{
+        return this.http.post<LoginResponse>(`${this.apiUrl}/login`, data, { withCredentials: true })
                 .pipe(
                     catchError(this.handleError)
                 );
