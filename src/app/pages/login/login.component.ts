@@ -4,6 +4,12 @@ import { Router } from '@angular/router';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService, LoginRequest } from '../../services/auth.serivce';
+import { z, ZodError } from "zod";
+
+const loginSchema = z.object({
+    email: z.string().email("Invalid email"),
+    password: z.string().min(8, "Password must be at lease 8 characters"),
+});
 
 @Component({
     selector: 'app-login',
@@ -27,23 +33,25 @@ export class LoginComponent {
         this.errorMessage = "";
         this.fieldErrors = {};
 
-        // client-side validation
-        if (!this.email) {
-            this.fieldErrors['email'] = "Email is required";
-        }
-
-        if (!this.password) {
-            this.fieldErrors['password'] = "Password is required";
-        }
-
-        if (Object.keys(this.fieldErrors).length > 0) {
-            return;
-        }
-
         const payload: LoginRequest = {
             email: this.email,
             password: this.password
         };
+        
+        // Validate using Zod
+                try {
+                    loginSchema.parse(payload);
+                } catch (err) {
+                    if (err instanceof ZodError) {
+                        // Map field errors
+                        err.errors.forEach(e => {
+                            if (e.path && e.path.length > 0) {
+                                const key = e.path[0] as string;
+                                this.fieldErrors[key] = e.message;
+                            }
+                        });
+                    }
+                }
 
         this.loading = true;
 

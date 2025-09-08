@@ -1,6 +1,8 @@
 import { Component } from '@angular/core'
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { AuthService, RegisterRequest } from '../../services/auth.serivce';
 import { z, ZodError } from "zod";
 
@@ -13,7 +15,7 @@ const registerSchema = z.object({
 @Component({
     selector: 'app-register',
     standalone: true,
-    imports: [FormsModule, CommonModule],
+    imports: [FormsModule, RouterLink, CommonModule],
     templateUrl: './register.component.html',
     styleUrls: ['./register.component.scss']
 })
@@ -27,7 +29,7 @@ export class RegisterComponent {
     errorMessage = "";
     fieldErrors: Record<string, string> = {};
 
-    constructor(private authService: AuthService) {}
+    constructor(private authService: AuthService, private router: Router) {}
 
     onSubmit() {
         // Reset previous errors
