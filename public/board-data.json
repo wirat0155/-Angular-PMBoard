@@ -1,0 +1,45 @@
+{
+  "board": {
+    "board_id": "1",
+    "title": "Project Alpha",
+    "description": "Board for Project Alpha",
+    "owner_id": "owner-1"
+  },
+  "columns": [
+    {
+      "column_id": "col-1",
+      "title": "To Do",
+      "pos_index": 1,
+      "cards": [
+        {
+          "card_id": "card-1",
+          "title": "Design UI",
+          "description": "Create mockups for login page",
+          "due_date": "2025-09-10",
+          "assignees": ["user-1"],
+          "labels": ["UI", "High Priority"]
+        },
+        {
+          "card_id": "card-2",
+          "title": "Set up DB",
+          "description": "Initialize database schema",
+          "due_date": "2025-09-12",
+          "assignees": ["user-2"],
+          "labels": ["Backend"]
+        }
+      ]
+    },
+    {
+      "column_id": "col-2",
+      "title": "In Progress",
+      "pos_index": 2,
+      "cards": []
+    },
+    {
+      "column_id": "col-3",
+      "title": "Done",
+      "pos_index": 3,
+      "cards": []
+    }
+  ]
+}

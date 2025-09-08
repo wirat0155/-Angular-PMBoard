@@ -1,0 +1,182 @@
+.board-container {
+  padding: 16px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.board-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+
+  .board-title h2 {
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: 600;
+  }
+  .board-title p {
+    margin: 4px 0 0 0;
+    font-size: 0.95rem;
+    color: #666;
+  }
+
+  .btn-primary {
+    background-color: #5c6ac4;
+    color: white;
+    padding: 8px 14px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.2s;
+
+    &:hover {
+      background-color: #4b57a2;
+    }
+  }
+}
+
+.columns {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+  min-height: 300px;
+
+  &::-webkit-scrollbar {
+    height: 8px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(0,0,0,0.2);
+    border-radius: 4px;
+  }
+}
+
+.column {
+  background: linear-gradient(180deg, #f7f8fc, #f4f5f7);
+  padding: 12px;
+  border-radius: 12px;
+  min-width: 280px;
+  flex: 0 0 auto;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+
+  .column-header {
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 12px;
+  }
+
+  .cards {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-height: 50px;
+  }
+
+  .card {
+    background: white;
+    padding: 12px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.12);
+    cursor: grab;
+    transition: transform 0.2s, box-shadow 0.2s;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .card-title {
+      margin: 0 0 6px 0;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    .card-desc {
+      margin: 0 0 8px 0;
+      font-size: 0.875rem;
+      color: #555;
+    }
+
+    .labels {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+
+      .label {
+        background-color: #e0e0e0;
+        color: #333;
+        font-size: 0.75rem;
+        font-weight: 500;
+        padding: 2px 6px;
+        border-radius: 12px;
+      }
+    }
+
+    .assignees {
+      display: flex;
+      margin-top: 6px;
+
+      .avatar {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background-color: #5c6ac4;
+        color: white;
+        font-size: 0.75rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-right: 4px;
+      }
+    }
+  }
+
+  .btn-add {
+    margin-top: 10px;
+    background-color: #e1e1e1;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.2s;
+
+    &:hover {
+      background-color: #d0d0d0;
+    }
+  }
+}
+
+.btn-add-column {
+  height: fit-content;
+  padding: 10px 14px;
+  background: #5c6ac4;
+  color: white;
+  border-radius: 10px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  align-self: start;
+  transition: background 0.2s;
+
+  &:hover {
+    background: #4b57a2;
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .columns {
+    gap: 14px;
+  }
+
+  .column {
+    min-width: 220px;
+    padding: 10px;
+  }
+
+  .card {
+    padding: 10px;
+  }
+}

@@ -1,0 +1,45 @@
+<div class="board-container">
+  <!-- Header -->
+  <div class="board-header">
+    <div class="board-title">
+      <h2>{{ board?.title }}</h2>
+      <p>{{ board?.description }}</p>
+    </div>
+    <button *ngIf="isOwner" class="btn-primary" (click)="inviteMember()">Invite Member</button>
+  </div>
+
+  <!-- Columns -->
+  <div class="columns" cdkDropListGroup>
+    <div
+      class="column"
+      *ngFor="let col of board?.columns"
+      cdkDropList
+      [cdkDropListData]="col.cards"
+      (cdkDropListDropped)="drop($event)"
+    >
+      <div class="column-header">
+        <h3>{{ col.title }}</h3>
+      </div>
+
+      <!-- Task Cards -->
+      <div class="cards">
+        <div class="card" *ngFor="let card of col.cards" cdkDrag>
+          <h4 class="card-title">{{ card.title }}</h4>
+          <p class="card-desc">{{ card.description }}</p>
+          <div class="labels">
+            <span class="label" *ngFor="let label of card.labels">{{ label }}</span>
+          </div>
+          <div class="assignees">
+            <div class="avatar" *ngFor="let assignee of card.assignees" [title]="assignee">
+              {{ assignee[0] }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn-add" (click)="addCard(col)">+ Add Card</button>
+    </div>
+
+    <button class="btn-add-column" (click)="addColumn()">+ Add Column</button>
+  </div>
+</div>
